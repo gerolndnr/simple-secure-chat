@@ -11,5 +11,5 @@ server.listen(port, () => {
 });
 
 io.on("connection", (socket) => {
-
+    console.log(`Client connection established`)
 });
