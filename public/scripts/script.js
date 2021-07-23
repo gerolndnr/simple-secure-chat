@@ -1,15 +1,12 @@
 import Vue from 'https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.esm.browser.js'
-
+let socket = io();
 let vm = new Vue({
     el: "#app",
     data: {
         typedKey: null,
         typedMessage: null,
         typedUsername: null,
-        chatMessages: [ // Filled with sample text, because connection to backend is not implemented yet
-            { author: "Donald Duck", content: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam", date: "23.7.2021 14:21" },
-            { author: "Dagobert Duck", content: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et", date: "23.7.2021 14:50" }
-        ]
+        chatMessages: []
     },
     methods: {
         sendMessage() {
@@ -34,6 +31,8 @@ let vm = new Vue({
 
             this.chatMessages.push(newMessage);
             this.typedMessage = "";
+
+            socket.emit("chatMessage", newMessage);
         },
         saveData() {
             localStorage.setItem("username", this.typedUsername);
@@ -56,3 +55,8 @@ function loadData() {
 }
 
 loadData();
+
+socket.on("chatMessage", (message) => {
+    console.log("Received chat message");
+    vm.chatMessages.push(message);
+})

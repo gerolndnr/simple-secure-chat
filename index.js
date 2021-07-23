@@ -14,4 +14,9 @@ app.use(express.static(__dirname + "/public"));
 
 io.on("connection", (socket) => {
     console.log(`Client connection established`);
+
+    socket.on("chatMessage", (message) => {
+        console.log("Received chat message");
+        socket.broadcast.emit("chatMessage", message);
+    })
 });

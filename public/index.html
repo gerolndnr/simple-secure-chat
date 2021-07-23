@@ -16,7 +16,7 @@
         <input type="text" placeholder="Type in your username" v-model="typedUsername" v-on:focusout="saveData()">
     </div>
 
-    <div class="chatBody"> <!-- Should display the incoming messages> -->
+    <div class="chatBody" id="chatBody"> <!-- Should display the incoming messages> -->
         <div class="message" v-for="message of chatMessages">
             <div class="messageHeader">
                 <span class="messageAuthor">{{ message.author }}</span>
@@ -37,7 +37,7 @@
     </div>
 </div>
 
-
+    <script src="/socket.io/socket.io.js"></script>
     <script type="module" src="scripts/script.js"></script>
 </body>
 </html>
