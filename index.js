@@ -10,6 +10,8 @@ server.listen(port, () => {
     console.log(`Webserver running on :${port}`);
 });
 
+app.use(express.static(__dirname + "/public"));
+
 io.on("connection", (socket) => {
-    console.log(`Client connection established`)
+    console.log(`Client connection established`);
 });
