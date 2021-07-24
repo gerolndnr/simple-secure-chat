@@ -12,8 +12,8 @@
 <body>
 <div id="app">
     <div class="chatHeader"> <!-- Should display chat information (like name, members, etc.) -->
-        <input type="password" placeholder="Type in your de/encryption key" v-model="typedKey" v-on:focusout="saveData()">
-        <input type="text" placeholder="Type in your username" v-model="typedUsername" v-on:focusout="saveData()">
+        <input type="password" placeholder="Type in your de/encryption key" v-model="typedKey" v-on:focusout="saveData()" required="true">
+        <input type="text" placeholder="Type in your username" v-model="typedUsername" v-on:focusout="saveData()" required="true">
     </div>
 
     <div class="chatBody" id="chatBody"> <!-- Should display the incoming messages> -->
@@ -31,13 +31,14 @@
 
     <div class="chatFooter"> <!-- Should display the input field -->
         <form v-on:submit.prevent="sendMessage()">
-            <input type="text" placeholder="Type in your message" v-model="typedMessage">
+            <input type="text" placeholder="Type in your message" v-model="typedMessage" required="true">
             <button type="submit">Send</button>
         </form>
     </div>
 </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js"></script>
 
     <script src="/socket.io/socket.io.js"></script>
-    <script type="module" src="scripts/script.js"></script>
+    <script defer type="module" src="scripts/script.js"></script>
 </body>
 </html>

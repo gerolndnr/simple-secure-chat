@@ -23,20 +23,30 @@ let vm = new Vue({
                 return;
             }
 
-            const newMessage = {
+            const encryptedMessage = {
+                author: this.typedUsername,
+                content: CryptoJS.AES.encrypt(this.typedMessage, this.typedKey).toString(),
+                date: "XX.XX.XXXX XX:XX",
+            }
+
+            const uncryptedMessage = {
                 author: this.typedUsername,
                 content: this.typedMessage,
                 date: "XX.XX.XXXX XX:XX",
             }
 
-            this.chatMessages.push(newMessage);
+            this.chatMessages.push(uncryptedMessage);
             this.typedMessage = "";
 
-            socket.emit("chatMessage", newMessage);
+            socket.emit("chatMessage", encryptedMessage);
+            const doc = this.$el.querySelector("#chatBody");
+
+            doc.scrollTop = doc.scrollHeight;
         },
         saveData() {
             localStorage.setItem("username", this.typedUsername);
             localStorage.setItem("key", this.typedKey);
+
             console.log("Saved data to local storage!");
         }
     }
@@ -58,5 +68,12 @@ loadData();
 
 socket.on("chatMessage", (message) => {
     console.log("Received chat message");
-    vm.chatMessages.push(message);
+
+    const decryptedMessage = {
+        author: message.author,
+        content: CryptoJS.AES.decrypt(message.content, vm.typedKey).toString(CryptoJS.enc.Utf8),
+        date: message.date
+    }
+
+    vm.chatMessages.push(decryptedMessage);
 })
